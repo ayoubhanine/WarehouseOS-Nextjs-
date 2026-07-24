@@ -1,0 +1,39 @@
+// {
+//   "name": "warehouse-os",
+//   "version": "0.1.0",
+//   "private": true,
+//   "scripts": {
+//     "dev": "next dev",
+//     "build": "next build",
+//     "start": "next start",
+//     "lint": "eslint",
+//     "test": "jest"
+//   },
+//   "dependencies": {
+//     "bcryptjs": "^3.0.3",
+//     "mongoose": "^9.8.0",
+//     "next": "16.2.10",
+//     "next-auth": "^4.24.15",
+//     "react": "19.2.4",
+//     "react-dom": "19.2.4",
+//     "zod": "^4.4.3"
+//   },
+//   "devDependencies": {
+//     "@tailwindcss/postcss": "^4",
+//     "@testing-library/jest-dom": "^7.0.0",
+//     "@testing-library/react": "^16.3.2",
+//     "@testing-library/user-event": "^14.6.1",
+//     "@types/bcryptjs": "^2.4.6",
+//     "@types/jest": "^30.0.0",
+//     "@types/node": "^20",
+//     "@types/react": "^19",
+//     "@types/react-dom": "^19",
+//     "eslint": "^9",
+//     "eslint-config-next": "16.2.10",
+//     "jest": "^30.4.2",
+//     "jest-environment-jsdom": "^30.4.1",
+//     "tailwindcss": "^4",
+//     "ts-jest": "^29.4.12",
+//     "typescript": "^5"
+//   }
+// }

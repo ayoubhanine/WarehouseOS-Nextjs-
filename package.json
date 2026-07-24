@@ -12,10 +12,11 @@
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "mongoose": "^9.8.0",
-    "next": "16.2.10",
+    "next": "15.5.4",
+    "react": "19",
+    "react-dom": "19",
     "next-auth": "^4.24.15",
-    "react": "19.2.4",
-    "react-dom": "19.2.4",
+   
     "zod": "^4.4.3"
   },
   "devDependencies": {
@@ -29,7 +30,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.2.10",
+    "eslint-config-next": "15.5.4",
     "jest": "^30.4.2",
     "jest-environment-jsdom": "^30.4.1",
     "tailwindcss": "^4",
