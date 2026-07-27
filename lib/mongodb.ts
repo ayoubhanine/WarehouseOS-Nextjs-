@@ -56,7 +56,7 @@ export async function connectDB() {
 
   if (!MONGODB_URI) {
     throw new Error("Veuillez définir la variable MONGODB_URI.");
-    throw new Error("Veuillez définir la variable MONGODB_URI");
+    // throw new Error("Veuillez définir la variable MONGODB_URI");
   }
 
   if (cached.conn) {
