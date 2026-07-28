@@ -1,16 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { categorySchema } from "@/validators/categorySchema";
+import { movementSchema } from "@/validators/movementSchema";
 import {
-  createCategory,
-  getCategories,
-} from "@/services/category.service";
+  createMovement,
+  getMovements,
+} from "@/services/movement.service";
 
 export async function GET() {
   try {
-    const categories = await getCategories();
+    const movements = await getMovements();
 
-    return NextResponse.json(categories);
+    return NextResponse.json(movements);
   } catch {
     return NextResponse.json(
       { message: "Erreur serveur" },
@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
-    const result = categorySchema.safeParse(body);
+    const result = movementSchema.safeParse(body);
 
     if (!result.success) {
       return NextResponse.json(
@@ -34,15 +34,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const category = await createCategory(result.data);
+    const movement = await createMovement(result.data);
 
-    return NextResponse.json(category, {
+    return NextResponse.json(movement, {
       status: 201,
     });
-  } catch {
+  } catch (error) {
     return NextResponse.json(
-      { message: "Erreur serveur" },
-      { status: 500 }
+      {
+        message:
+          error instanceof Error
+            ? error.message
+            : "Erreur serveur",
+      },
+      { status: 400 }
     );
   }
 }
