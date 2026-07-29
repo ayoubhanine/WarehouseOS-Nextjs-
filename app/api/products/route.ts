@@ -40,11 +40,13 @@ export async function POST(request: NextRequest) {
       status: 201,
     });
   } catch (error) {
-    console.error(error);
+  console.error(error);
 
-    return NextResponse.json(
-      { message: "Erreur serveur" },
-      { status: 500 }
-    );
-  }
+  return NextResponse.json(
+    {
+      message: error instanceof Error ? error.message : "Erreur serveur",
+    },
+    { status: 500 }
+  );
+}
 }

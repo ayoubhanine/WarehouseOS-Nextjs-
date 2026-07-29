@@ -1,5 +1,6 @@
 import { connectDB } from "@/lib/mongodb";
 import Product from "@/models/Product";
+import "@/models/Category";
 
 export async function getProducts() {
   await connectDB();
