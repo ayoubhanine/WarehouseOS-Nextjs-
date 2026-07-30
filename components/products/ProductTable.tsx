@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import { archiveProduct } from '@/services/product.service';
+import { archiveProduct } from '@/api/product.api';
 import { Product } from '@/types/product';
 
 interface Props {
@@ -13,12 +13,25 @@ interface Props {
 export default function ProductTable({ products }: Props) {
   const router = useRouter();
 
-  async function handleArchive(id: string) {
-    if (!confirm('Archiver ce produit ?')) return;
+  // async function handleArchive(id: string) {
+  //   if (!confirm('Archiver ce produit ?')) return;
 
+  //   await archiveProduct(id);
+  //   router.refresh();
+  // }
+  async function handleArchive(id: string) {
+  if (!confirm("Archiver ce produit ?")) {
+    return;
+  }
+
+  try {
     await archiveProduct(id);
     router.refresh();
+  } catch (error) {
+    console.error(error);
+    alert("Erreur lors de l'archivage du produit.");
   }
+}
 
   return (
     <div className="overflow-hidden rounded-xl border">

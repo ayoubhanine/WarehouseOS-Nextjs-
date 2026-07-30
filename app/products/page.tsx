@@ -1,21 +1,87 @@
+// "use client";
+
+// import { useEffect, useState } from "react";
+// import Link from "next/link";
+
+// import ProductTable from "@/components/products/ProductTable";
+// import { getProducts } from "@/api/product.api";
+// import { Product } from "@/types/product";
+
+// export default function ProductsPage() {
+//   const [products, setProducts] = useState<Product[]>([]);
+//   const [loading, setLoading] = useState(true);
+
+//   useEffect(() => {
+//     async function fetchProducts() {
+//       try {
+//         const data = await getProducts();
+//         setProducts(data);
+//       } catch (error) {
+//         console.error(error);
+//       } finally {
+//         setLoading(false);
+//       }
+//     }
+
+//     fetchProducts();
+//   }, []);
+
+//   if (loading) {
+//     return (
+//       <div className="p-6">
+//         Chargement...
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div className="mx-auto max-w-7xl p-6">
+
+//       <div className="mb-6 flex items-center justify-between">
+
+//         <h1 className="text-3xl font-bold">
+//           Produits
+//         </h1>
+
+//         <Link
+//           href="/products/create"
+//           className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+//         >
+//           Ajouter un produit
+//         </Link>
+
+//       </div>
+
+//       <ProductTable products={products} />
+
+//     </div>
+//   );
+// }
+
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { PlusIcon, PackageOpenIcon, AlertCircleIcon } from "lucide-react";
 
+import ProductTable from "@/components/products/ProductTable";
 import { getProducts } from "@/api/product.api";
 import { Product } from "@/types/product";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchProducts() {
       try {
+        setError(null);
         const data = await getProducts();
         setProducts(data);
-      } catch (error) {
-        console.error(error);
+      } catch (err) {
+        console.error(err);
+        setError("Impossible de charger les produits. Veuillez réessayer.");
       } finally {
         setLoading(false);
       }
@@ -24,45 +90,78 @@ export default function ProductsPage() {
     fetchProducts();
   }, []);
 
-  if (loading) {
-    return <p>Chargement...</p>;
-  }
-
   return (
-    <div className="max-w-7xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">
-        Produits
-      </h1>
+    <div className="mx-auto max-w-7xl space-y-6 p-6">
+      {/* En-tête de la page */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900">
+            Produits
+          </h1>
+          <p className="mt-1 text-sm text-slate-500">
+            Gérez votre catalogue de produits et leurs informations.
+          </p>
+        </div>
 
-      <table className="w-full border border-gray-300">
-        <thead className="bg-gray-200">
-          <tr>
-            <th className="border p-3">Nom</th>
-            <th className="border p-3">SKU</th>
-            <th className="border p-3">Catégorie</th>
-            <th className="border p-3">Prix</th>
-            <th className="border p-3">Stock</th>
-          </tr>
-        </thead>
+        <Link
+          href="/products/create"
+          className="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+        >
+          <PlusIcon className="h-4 w-4" />
+          Ajouter un produit
+        </Link>
+      </div>
 
-        <tbody>
-          {products.map((product) => (
-            <tr key={product._id}>
-              <td className="border p-3">{product.name}</td>
-              <td className="border p-3">{product.sku}</td>
-              <td className="border p-3">
-                {product.category.name}
-              </td>
-              <td className="border p-3">
-                {product.price} MAD
-              </td>
-              <td className="border p-3">
-                {product.quantity}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {/* État : Chargement (Skeleton Loader) */}
+      {loading && (
+        <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+          <div className="animate-pulse space-y-4">
+            <div className="h-10 w-full rounded-md bg-slate-100" />
+            <div className="h-12 w-full rounded-md bg-slate-100" />
+            <div className="h-12 w-full rounded-md bg-slate-100" />
+            <div className="h-12 w-full rounded-md bg-slate-100" />
+          </div>
+        </div>
+      )}
+
+      {/* État : Erreur */}
+      {!loading && error && (
+        <div className="flex items-center gap-3 rounded-xl border border-red-200 bg-red-50 p-4 text-red-700">
+          <AlertCircleIcon className="h-5 w-5 shrink-0" />
+          <p className="text-sm font-medium">{error}</p>
+        </div>
+      )}
+
+      {/* État : Aucun produit (Empty State) */}
+      {!loading && !error && products.length === 0 && (
+        <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-50/50 py-12 text-center">
+          <div className="rounded-full bg-slate-100 p-3">
+            <PackageOpenIcon className="h-8 w-8 text-slate-400" />
+          </div>
+          <h3 className="mt-4 text-sm font-semibold text-slate-900">
+            Aucun produit trouvé
+          </h3>
+          <p className="mt-1 text-sm text-slate-500">
+            Commencez par ajouter votre premier produit à l'inventaire.
+          </p>
+          <Link
+            href="/products/create"
+            className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-blue-600 hover:text-blue-700"
+          >
+            <PlusIcon className="h-4 w-4" />
+            Ajouter un produit
+          </Link>
+        </div>
+      )}
+
+      {/* Affichage du tableau */}
+      {!loading && !error && products.length > 0 && (
+        <div className="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+          <ProductTable products={products} />
+        </div>
+      )}
     </div>
   );
 }
+
+
