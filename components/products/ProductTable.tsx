@@ -12,13 +12,6 @@ interface Props {
 
 export default function ProductTable({ products }: Props) {
   const router = useRouter();
-
-  // async function handleArchive(id: string) {
-  //   if (!confirm('Archiver ce produit ?')) return;
-
-  //   await archiveProduct(id);
-  //   router.refresh();
-  // }
   async function handleArchive(id: string) {
   if (!confirm("Archiver ce produit ?")) {
     return;
